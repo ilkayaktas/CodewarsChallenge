@@ -1,0 +1,22 @@
+package dailyexperiment;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
+/**
+ * Created by iaktas on 19.09.2017 at 10:50.
+ */
+class CountOfPositivesTest {
+    @Test
+    public void countPositivesSumNegatives_BasicTest() {
+        int[] expectedResult = new int[] {10, -65};
+        assertArrayEquals(expectedResult, CountOfPositives.countPositivesSumNegatives(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, -11, -12, -13, -14, -15}));
+    }
+
+    @Test
+    public void countPositivesSumNegatives_InputWithZeroes() {
+        int[] expectedResult = new int[] {8, -50};
+        assertArrayEquals(expectedResult, CountOfPositives.countPositivesSumNegatives(new int[] {0, 2, 3, 0, 5, 6, 7, 8, 9, 10, -11, -12, -13, -14}));
+    }
+}
