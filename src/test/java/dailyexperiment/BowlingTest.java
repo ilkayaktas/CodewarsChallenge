@@ -16,8 +16,8 @@ public class BowlingTest {
 
         assertEquals(29, Bowling.bowling_score("1/ 11 11 11 11 11 11 11 11 11"));
 
-        System.out.println("Woah! Perfect game!");
         assertEquals(300, Bowling.bowling_score("X X X X X X X X X XXX"));
+        System.out.println("Woah! Perfect game!");
     }
 
 }
