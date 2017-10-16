@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BowlingTest {
     @Test
     void bowling_score() {
-        // assertEquals("expected", "actual");
+
         System.out.println("Maybe this bowler should put bumpers on...\n ");
         assertEquals(20, Bowling.bowling_score("11 11 11 11 11 11 11 11 11 11"));
 

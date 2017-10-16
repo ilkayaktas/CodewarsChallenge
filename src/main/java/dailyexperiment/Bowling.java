@@ -1,63 +1,107 @@
 package dailyexperiment;
 
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by iaktas on 21.09.2017 at 16:25.
  */
 
 public class Bowling {
+
     public static int bowling_score(String frames) {
 
-        String []score = frames.split("");
-        LinkedList<String> list = new LinkedList<>(Arrays.asList(score).subList(0, 9));
+        String[] score = frames.split(" ");
+        int total = 0;
 
+        List<BowlingString> frameList = Arrays.stream(score).map(BowlingString::new).collect(Collectors.toList());
 
-        for (int i = 0; i < 9; i++) {
-            if (list.get(i).equals("X")){
+        for (int i = 0; i < frameList.size() - 1; i++) {
+            BowlingString currentFrame = frameList.get(i);
 
-            } else if(list.get(i).contains("/")){
-
+            if(currentFrame.isSpare()){
+                total += currentFrame.getValue()+ frameList.get(i+1).getFirstRoll();
+            } else if(currentFrame.isStrike()){
+                if(frameList.get(i+1).rollCount == 1){
+                    total += currentFrame.getValue() + frameList.get(i+1).getSecondRoll() + frameList.get(i+2).getFirstRoll();
+                } else{
+                    total += currentFrame.getValue() + frameList.get(i+1).getSecondRoll();
+                }
             } else{
-
+                total += currentFrame.getValue();
             }
         }
 
+        total += frameList.get(frameList.size()-1).getValue();
 
-        return 0;
+        return total;
+
     }
 
-    private String getIfExist(LinkedList<String> list, int index){
-        if(list.size()> index){
-            return list.get(index);
-        } else{
-            return null;
+    private static int other_solution(String frames){
+        String[] fArr = frames.split(" ");
+        int score = 0;
+
+        for (int i = 0 ; i < fArr.length ; i++) {
+            if (fArr[i].matches("X|[0-9]/")) {
+                if (i < 9) fArr[i] = Arrays.stream(fArr, i, fArr.length)
+                        .collect(Collectors.joining(""))
+                        .substring(0, 3);
+            }
+            score += fArr[i].replaceAll("[0-9]/","X")
+                    .chars()
+                    .map( n -> !Character.isDigit((char) n) ? 10 : Integer.valueOf(Character.toString((char) n)))
+                    .sum();
         }
+        return score;
     }
 
+    static class BowlingString {
+        final String frame;
+        final int rollCount;
 
-
-    private int calculateStrike(String []score, int currentPos, boolean isStrike){
-        if(score.length == currentPos)return 0;
-
-        if (score[currentPos].contains("X")){
-            return 10 + Character.getNumericValue(score[currentPos].charAt(0));
-        } else if(score[currentPos].contains("/")){
-            return 10 + Character.getNumericValue(score[currentPos].charAt(0));
-        } else{
-            return Character.getNumericValue(score[currentPos].charAt(0));
-        }
-    }
-
-    private int getValue(String str){
-        if(str.equals("X")){
-            return 10;
-        } else if(str.equals("/")){
-            return 10;
-        } else{
-            return Character.getNumericValue(str.charAt(0));
+        BowlingString(String frame) {
+            this.frame = frame;
+            rollCount = frame.split("").length;
         }
 
+        int getValue() {
+            return calculate(rollCount);
+        }
+
+        int getFirstRoll() {
+            return calculate(1);
+        }
+
+        int getSecondRoll(){
+            return calculate(2);
+        }
+
+        private int calculate(int rollCount){
+            int total = 0, prev = 0;
+            for (int i = 0; i < rollCount && i < this.rollCount; i++) {
+                if(frame.charAt(i) == 'X'){
+                    total += 10;
+                    prev = 10;
+                }
+                else if(frame.charAt(i) == '/'){
+                    total = total - prev + 10;
+                    prev = 10;
+                } else{
+                    total += frame.charAt(i) -48;
+                    prev = frame.charAt(i) -48;
+                }
+            }
+            return total;
+        }
+
+        boolean isSpare(){
+            return frame.contains("/");
+        }
+
+        boolean isStrike(){
+            return frame.equals("X");
+        }
     }
 }
