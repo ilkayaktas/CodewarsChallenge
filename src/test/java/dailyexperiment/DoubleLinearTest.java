@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by iaktas on 19.10.2017 at 13:46.
  */
-class DoubleLinearTest {
+public class DoubleLinearTest {
     private static void testing(int actual, int expected) {
         assertEquals(expected, actual);
     }
