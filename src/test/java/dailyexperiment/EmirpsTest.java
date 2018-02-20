@@ -1,8 +1,7 @@
 package dailyexperiment;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
-
+import org.junit.Test;
 /**
  * Created by iaktas on 19.09.2017 at 15:25.
  */

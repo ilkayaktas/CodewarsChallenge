@@ -1,9 +1,7 @@
 package dailyexperiment;
 
-import org.junit.jupiter.api.Test;
-
-import static org.junit.Assert.assertEquals;
-
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * Created by iaktas on 17.10.2017 at 13:23.
